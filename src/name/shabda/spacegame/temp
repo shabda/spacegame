@@ -1,0 +1,89 @@
+Timer t=new Timer(100,new ActionListener() {
+		
+		public void actionPerformed(ActionEvent e) {
+			SwingWorker sw=new SwingWorker() {
+				public Object construct() {
+					killOutside(rogues);
+					//killOnCollision(myWeapons, rogues);
+					kill();
+					for(Iterator i=rogues.iterator();i.hasNext();) {
+						Object o= i.next();
+						((Moving)o).move();
+						Artifact a=(Artifact)o;
+						boolean remove=!a.isAlive();
+						if(remove) {
+							i.remove();
+							}
+						}
+					for(Iterator i=myWeapons.iterator();i.hasNext();) {
+						Object o=i.next();
+						((Moving) o).move();
+						if(!((Artifact)o).isAlive()) {
+							i.remove();
+							}
+						}
+					int loop=(int) (Math.random()*1.1);
+					for(int i=0;i<loop;i++) {
+						rogues.add(addRogues());
+						}
+					s.artifacts.clear();
+					s.artifacts.addAll(rogues);
+					s.artifacts.addAll(myWeapons);
+					s.artifacts.add(hero);
+					hero.move();
+					return new Object();
+					}
+				public void finished() {
+					s.repaint();
+					}
+				};
+				sw.start();
+			}
+		});
+		GridBagLayout gridbag = new GridBagLayout();
+        GridBagConstraints c = new GridBagConstraints();
+		JPanel pane=new JPanel();
+		pane.setLayout(gridbag);
+		c.gridx=0;
+		c.gridy=0;
+		c.gridwidth=12;
+		c.gridheight=4;
+		gridbag.setConstraints(dw, c);
+		pane.add(dw);
+		
+			/*for(Iterator i=rogues.iterator();i.hasNext();) {
+						Object o=i.next();
+						((Moving)o).move();
+						RogueShip r=(RogueShip)o;
+						int rand=(int) (Math.random()*chanceRougeFires);
+						if(rand==0)
+							enemyWeapons.add(r.fire());
+						}
+					for(Iterator j=myWeapons.iterator();j.hasNext();) {
+						Object o=j.next();
+						((Moving)o).move();
+						}
+					for(Iterator j=enemyWeapons.iterator();j.hasNext();) {
+						Object o=j.next();
+						((Moving)o).move();
+						}
+					for(Iterator i=spaceScapes.iterator();i.hasNext();) {
+						Object o=i.next();
+						((Moving)o).move();
+						}
+					hero.move(s.getWidth(),s.getHeight());
+				int[] i=killOnCollision(rogues, myWeapons);
+				enemiesKilled+=i[0];
+				i=killOnCollision(rogues,hero);
+				enemiesKilled+=i[0];
+				heroDeaths+=i[1];
+				i=killOnCollision(enemyWeapons,hero);
+				heroDeaths+=i[1];
+				i=killOnCollision(spaceScapes,hero);
+				heroDeaths+=i[1];
+				killWhenOutside(rogues);
+				killWhenOutside(enemyWeapons);
+				killWhenOutside(myWeapons);
+				killWhenOutside(spaceScapes);
+				System.out.println("size is "+rogues.size());
+				enemiesKilledL.setText("enemies killed:"+enemiesKilled);*/
